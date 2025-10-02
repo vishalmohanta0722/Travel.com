@@ -14,6 +14,7 @@ import {
   Camera,
 } from 'lucide-react';
 import { destinations } from '../data/mockData';
+import { motion } from 'framer-motion';
 
 import VideoModal from '../components/VideoModal';
 import ScrollButton from '../components/ScrollButton';
@@ -47,63 +48,96 @@ const Home: React.FC = () => {
     <div className="overflow-x-hidden">
       {/* ✅ Existing Home component content */}
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-        {/* Hero Section */}
-        <section className="relative h-screen flex items-center justify-center text-center overflow-hidden">
-          {/* Background */}
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-fixed transform scale-105"
-            style={{
-              backgroundImage:
-                'url(https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&w=1600)',
-            }}
-          ></div>
+      {/* Hero Section */}
+<section className="relative h-[47rem] flex items-center justify-center overflow-hidden">
+  {/* Background with parallax effect */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-fixed transform scale-105"
+    style={{
+      backgroundImage:
+        "url(https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&w=1600)",
+    }}
+  ></div>
+  <div className="absolute inset-0 bg-black/40"></div>
+  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/40 via-purple-600/40 to-black/70"></div>
 
-          {/* Floating Elements */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute top-40 right-20 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl animate-bounce"></div>
-            <div className="absolute bottom-20 left-1/4 w-16 h-16 bg-purple-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
-            <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-yellow-400/10 rounded-full blur-2xl animate-pulse delay-500"></div>
-          </div>
+  {/* Floating Elements */}
+  <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute top-20 left-10 w-24 h-24 bg-white/10 rounded-full blur-3xl animate-float"></div>
+    <div className="absolute top-40 right-20 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl animate-float-delayed"></div>
+    <div className="absolute bottom-20 left-1/4 w-20 h-20 bg-purple-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+    <div className="absolute top-1/2 right-1/4 w-28 h-28 bg-yellow-400/10 rounded-full blur-2xl animate-float-slow"></div>
+  </div>
 
-          <div className="relative z-10 text-center text-white px-4 max-w-6xl">
-            <div className="flex items-center justify-center mb-8">
-              <Sparkles className="h-10 w-10 text-yellow-400 mr-4 animate-pulse" />
-              <span className="text-xl font-medium bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-white/30">
-                ✈️ Premium Travel Experience Since 2010
-              </span>
-              <Sparkles className="h-10 w-10 text-yellow-400 ml-4 animate-pulse" />
-            </div>
-            <h1 className="text-7xl md:text-9xl font-bold mb-10 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight">
-              Discover the
-              <span className="block text-yellow-400 animate-pulse">World</span>
-            </h1>
-            <p className="text-2xl md:text-4xl mb-16 leading-relaxed font-light max-w-5xl mx-auto">
-              Embark on{' '}
-              <span className="text-yellow-400 font-semibold">
-                extraordinary journeys
-              </span>{' '}
-              with our expertly crafted travel experiences that create memories
-              for a lifetime
-            </p>
-            <div className="flex flex-col sm:flex-row gap-8 justify-center">
-              <Link
-                to="/booking"
-                className="group px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 hover:shadow-2xl flex items-center justify-center text-xl border-2 border-white/20"
-              >
-                🚀 Book Your Adventure
-                <ArrowRight className="ml-4 h-7 w-7 group-hover:translate-x-2 transition-transform" />
-              </Link>
-              <button
-                onClick={() => setIsVideoModalOpen(true)}
-                className="group px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 hover:shadow-2xl flex items-center justify-center text-xl border-2 border-white/20"
-              >
-                🎬 View Our Story
-              </button>
-            </div>
-          </div>
-        </section>
+  {/* Hero Content */}
+  <motion.div
+    className="relative z-10 text-center text-white px-4 max-w-6xl"
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+  >
+    {/* Badge */}
+    <motion.div
+      className="flex items-center justify-center mb-8"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.3, duration: 0.6 }}
+    >
+      <Sparkles className="h-10 w-10 text-yellow-400 mr-4 animate-pulse" />
+      <span className="text-xl font-medium bg-white/20 px-6 py-3 rounded-full backdrop-blur-sm border border-white/30">
+        ✈️ Premium Travel Experience Since 2010
+      </span>
+      <Sparkles className="h-10 w-10 text-yellow-400 ml-4 animate-pulse" />
+    </motion.div>
+
+    {/* Title */}
+    <motion.h1
+      className="text-7xl md:text-9xl font-bold mb-10 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6, duration: 0.8 }}
+    >
+      Discover the
+      <span className="block text-yellow-400 animate-pulse">World</span>
+    </motion.h1>
+
+    {/* Subtitle */}
+    <motion.p
+      className="text-2xl md:text-4xl mb-16 leading-relaxed font-light max-w-5xl mx-auto"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.8 }}
+    >
+      Embark on{" "}
+      <span className="text-yellow-400 font-semibold">extraordinary journeys</span>{" "}
+      with our expertly crafted travel experiences that create{" "}
+      <span className="text-yellow-300 font-semibold">memories for a lifetime</span>.
+    </motion.p>
+
+    {/* CTA Buttons */}
+    <motion.div
+      className="flex flex-col sm:flex-row gap-8 justify-center"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.3, duration: 0.8 }}
+    >
+      <Link
+        to="/booking"
+        className="group px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 hover:shadow-2xl flex items-center justify-center text-xl border-2 border-white/20"
+      >
+        🚀 Book Your Adventure
+        <ArrowRight className="ml-4 h-7 w-7 group-hover:translate-x-2 transition-transform" />
+      </Link>
+      <button
+        onClick={() => setIsVideoModalOpen(true)}
+        className="group px-12 py-6 bg-white/10 border-2 border-white/30 text-white font-bold rounded-2xl hover:bg-white hover:text-gray-900 transition-all text-xl flex items-center justify-center"
+      >
+        🎬 View Our Story
+      </button>
+    </motion.div>
+  </motion.div>
+</section>
+
       {/* Featured Destinations with Enhanced Design */}
       <section className="py-24 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -181,11 +215,12 @@ const Home: React.FC = () => {
                       View Details
                     </Link>
                     <Link
-                      to="/booking"
-                      className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 text-center"
-                    >
-                      Book Now
-                    </Link>
+  to={`/booking?destinationId=${destination.id}`}
+  className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 text-center"
+>
+  Book Now
+</Link>
+
                   </div>
                 </div>
               </div>
@@ -338,90 +373,94 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+{/* Premium Services Section - With Images */}
+<section className="relative py-24 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+  {/* Decorative Floating Elements */}
+  <div className="absolute top-0 left-0 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl animate-blob-slow mix-blend-multiply"></div>
+  <div className="absolute bottom-0 right-0 w-72 h-72 bg-pink-300/20 rounded-full blur-3xl animate-blob-slow mix-blend-multiply"></div>
+  <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-purple-400/20 rounded-full blur-2xl animate-blob-slow mix-blend-multiply"></div>
 
-      {/* Premium Services Section - Unique & Dynamic */}
-      <section className="relative py-24 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
-        {/* Decorative Floating Elements */}
-        <div className="absolute top-0 left-0 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl animate-blob-slow mix-blend-multiply"></div>
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-pink-300/20 rounded-full blur-3xl animate-blob-slow mix-blend-multiply"></div>
-        <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-purple-400/20 rounded-full blur-2xl animate-blob-slow mix-blend-multiply"></div>
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-20">
+      <h2 className="text-5xl md:text-6xl font-extrabold mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        Our Premium Services
+      </h2>
+      <p className="text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+        Elevate your travel experience with services designed for luxury,
+        convenience, and unforgettable memories.
+      </p>
+    </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-extrabold mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Our Premium Services
-            </h2>
-            <p className="text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Elevate your travel experience with services designed for luxury,
-              convenience, and unforgettable memories.
-            </p>
-          </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      {/* Flight Booking */}
+      <div className="relative group bg-purple-200 dark:bg-gray-800 rounded-3xl shadow-2xl p-10 overflow-hidden border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:-translate-y-6">
+        {/* Image Instead of Icon */}
+        <img
+          src="https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=800"
+          alt="Flight Booking"
+          className="w-full h-48 object-cover rounded-2xl mb-6 shadow-lg group-hover:scale-105 transition-transform"
+        />
+        <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
+          Flight Booking
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+          Unlock the best flight deals with major airlines and flexible
+          booking options.
+        </p>
+        <Link
+          to="/flight-booking"
+          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 shadow-lg"
+        >
+          Learn More <ArrowRight className="ml-2 h-5 w-5" />
+        </Link>
+      </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {/* Service Card */}
-            <div className="relative group bg-purple-200 dark:bg-gray-800 rounded-3xl shadow-2xl p-10 overflow-hidden border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:-translate-y-6">
-              {/* Animated Gradient Ring */}
-              <div className="absolute inset-0 m-auto w-36 h-36 border-4 rounded-full border-gradient-to-tr from-blue-500 via-purple-500 to-pink-500 opacity-30 animate-spin-slow pointer-events-none"></div>
-              <div className="relative z-10 w-24 h-24 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg">
-                <Plane className="h-12 w-12 text-white animate-bounce-slow" />
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
-                Flight Booking
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Unlock the best flight deals with major airlines and flexible
-                booking options.
-              </p>
-              <Link
-                to="/flight-booking"
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 shadow-lg"
-              >
-                Learn More <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </div>
-            {/* Service Card */}
-            <div className="relative group bg-green-100 dark:bg-gray-800 rounded-3xl shadow-2xl p-10 overflow-hidden border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:-translate-y-6">
-              <div className="absolute inset-0 m-auto w-36 h-36 border-4 rounded-full border-gradient-to-tr from-green-400 via-teal-500 to-cyan-500 opacity-30 animate-spin-slow pointer-events-none"></div>
-              <div className="relative z-10 w-24 h-24 bg-gradient-to-tr from-green-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg">
-                <Users className="h-12 w-12 text-white animate-bounce-slow" />
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
-                Tour Guide Services
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Expert local guides with in-depth knowledge, personalized tours,
-                and multilingual support.
-              </p>
-              <Link
-                to="/tour-guide"
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 shadow-lg"
-              >
-                Learn More <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </div>
-            {/* Service Card */}
-            <div className="relative group bg-pink-100 dark:bg-gray-800 rounded-3xl shadow-2xl p-10 overflow-hidden border border-pink-100 dark:border-gray-700 transition-transform hover:scale-105 hover:-translate-y-6">
-              <div className="absolute inset-0 m-auto w-36 h-36 border-4 rounded-full border-gradient-to-tr from-purple-500 via-pink-500 to-red-500 opacity-30 animate-spin-slow pointer-events-none"></div>
-              <div className="relative z-10 w-24 h-24 bg-gradient-to-tr from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg">
-                <Shield className="h-12 w-12 text-white animate-bounce-slow" />
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
-                Travel Insurance
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Complete coverage including medical, trip cancellations, lost
-                luggage, and more.
-              </p>
-              <Link
-                to="/travel-insurance"
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 shadow-lg"
-              >
-                Learn More <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Tour Guide Services */}
+      <div className="relative group bg-green-100 dark:bg-gray-800 rounded-3xl shadow-2xl p-10 overflow-hidden border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105 hover:-translate-y-6">
+        <img
+          src="https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=800"
+          alt="Tour Guide Services"
+          className="w-full h-48 object-cover rounded-2xl mb-6 shadow-lg group-hover:scale-105 transition-transform"
+        />
+        <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
+          Tour Guide Services
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+          Expert local guides with in-depth knowledge, personalized tours,
+          and multilingual support.
+        </p>
+        <Link
+          to="/tour-guide"
+          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 shadow-lg"
+        >
+          Learn More <ArrowRight className="ml-2 h-5 w-5" />
+        </Link>
+      </div>
+
+      {/* Travel Insurance */}
+      <div className="relative group bg-pink-100 dark:bg-gray-800 rounded-3xl shadow-2xl p-10 overflow-hidden border border-pink-100 dark:border-gray-700 transition-transform hover:scale-105 hover:-translate-y-6">
+        <img
+          src="https://images.pexels.com/photos/417502/pexels-photo-417502.jpeg?auto=compress&cs=tinysrgb&w=800"
+          alt="Travel Insurance"
+          className="w-full h-48 object-cover rounded-2xl mb-6 shadow-lg group-hover:scale-105 transition-transform"
+        />
+        <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
+          Travel Insurance
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+          Complete coverage including medical, trip cancellations, lost
+          luggage, and more.
+        </p>
+        <Link
+          to="/travel-insurance"
+          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 shadow-lg"
+        >
+          Learn More <ArrowRight className="ml-2 h-5 w-5" />
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
 
      
 
@@ -439,7 +478,7 @@ const Home: React.FC = () => {
       {/* Testimonial Card 1 */}
       <div className="bg-purple-200 dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-3 flex flex-col items-center text-center border border-gray-200 dark:border-gray-700">
         <img
-          src="https://randomuser.me/api/portraits/women/68.jpg"
+          src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=800"
           alt="Sarah Johnson"
           className="w-24 h-24 rounded-full border-4 border-gray-200 mb-4 shadow-lg object-cover"
         />
@@ -461,7 +500,7 @@ const Home: React.FC = () => {
       {/* Testimonial Card 2 */}
       <div className="bg-green-100 dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-3 flex flex-col items-center text-center border border-gray-200 dark:border-gray-700">
         <img
-          src="https://"
+          src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800"
           alt="David Chen"
           className="w-24 h-24 rounded-full border-4 border-gray-200 mb-4 shadow-lg object-cover"
         />
@@ -485,7 +524,7 @@ const Home: React.FC = () => {
       {/* Testimonial Card 3 */}
       <div className="bg-pink-100 dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-3 flex flex-col items-center text-center border border-gray-200 dark:border-gray-700">
         <img
-          src="https://i.postimg.cc/WpKtg6Cf/Whats-App-Image-2025-08-25-at-13-24-47-min-2-09-14-PM.jpg"
+          src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=800"
           alt="Emma Rodriguez"
           className="w-24 h-24 rounded-full border-4 border-gray-200 mb-4 shadow-lg object-cover"
         />

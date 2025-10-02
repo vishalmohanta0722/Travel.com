@@ -89,7 +89,7 @@ const About: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Parallax Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+     <section className="relative h-[47rem] flex items-center justify-center overflow-hidden">
         {/* Parallax Background */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-fixed"

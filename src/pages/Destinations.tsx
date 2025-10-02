@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   MapPin,
   Clock,
@@ -15,169 +15,158 @@ import {
   Award,
   Users,
   Calendar,
-  Sparkles,
   TrendingUp,
   Target,
   Globe,
-} from 'lucide-react';
-import { destinations } from '../data/mockData';
-import SearchFilter from '../components/SearchFilter';
-import Lightbox from '../components/Lightbox';
-import ImageCarousel from '../components/ImageCarousel';
-import { motion } from 'framer-motion';
+  Sparkles,
+} from "lucide-react";
+import { destinations } from "../data/mockData";
+import ImageCarousel from "../components/ImageCarousel";
+import Lightbox from "../components/Lightbox";
+import { motion } from "framer-motion";
+
+// ------------------- Types -------------------
+interface Destination {
+  id: string;
+  title: string;
+  price: number;
+  duration: string;
+  gallery: string[];
+  shortDescription: string;
+  rating?: number;
+  reviews?: number;
+  popular?: boolean;
+  discount?: number | null;
+  bestTime?: string;
+  difficulty?: string;
+}
+
+interface Filters {
+  priceRange: string;
+  duration: string;
+  rating: string;
+}
 
 const Destinations: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filters, setFilters] = useState({
-    priceRange: '',
-    duration: '',
-    rating: '',
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState<Filters>({
+    priceRange: "",
+    duration: "",
+    rating: "",
   });
-  const [sortBy, setSortBy] = useState('popular');
+  const [sortBy, setSortBy] = useState("popular");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [lightboxTitle, setLightboxTitle] = useState('');
+  const [lightboxTitle, setLightboxTitle] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [likedDestinations, setLikedDestinations] = useState<Set<string>>(
     new Set()
   );
 
+  // Filter dropdown options
   const filterOptions = {
-    priceRange: ['Under $1000', '$1000-$1500', '$1500-$2000', 'Over $2000'],
-    duration: ['5-7 days', '8-10 days', '10+ days'],
-    rating: ['4.0+', '4.5+', '4.8+'],
+    priceRange: ["Under $1000", "$1000-$1500", "$1500-$2000", "Over $2000"],
+    duration: ["5-7 days", "8-10 days", "10+ days"],
+    rating: ["4.0+", "4.5+", "4.8+"],
   };
 
-  // Enhanced destinations with additional data
-  const enhancedDestinations = destinations.map((dest) => ({
-    ...dest,
-    rating: 4.5 + Math.random() * 0.5,
-    reviews: Math.floor(Math.random() * 500) + 100,
-    popular: Math.random() > 0.6,
-    discount: Math.random() > 0.7 ? Math.floor(Math.random() * 25) + 10 : null,
-    bestTime: ['Spring', 'Summer', 'Fall', 'Winter'][
-      Math.floor(Math.random() * 4)
-    ],
-    difficulty: ['Easy', 'Moderate', 'Challenging'][
-      Math.floor(Math.random() * 3)
-    ],
-  }));
+  // Enhance destinations with dynamic data
+  const enhancedDestinations = useMemo(
+    () =>
+      destinations.map((dest) => ({
+        ...dest,
+        rating: 4.5 + Math.random() * 0.5,
+        reviews: Math.floor(Math.random() * 500) + 100,
+        popular: Math.random() > 0.6,
+        discount: Math.random() > 0.7 ? Math.floor(Math.random() * 25) + 10 : null,
+        bestTime: ["Spring", "Summer", "Fall", "Winter"][
+          Math.floor(Math.random() * 4)
+        ],
+        difficulty: ["Easy", "Moderate", "Challenging"][
+          Math.floor(Math.random() * 3)
+        ],
+      })),
+    []
+  );
 
+  // Simulate loading
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
 
+  // ------------------- Filtering & Sorting Logic -------------------
   const filteredAndSortedDestinations = useMemo(() => {
     let filtered = enhancedDestinations.filter((destination) => {
+      // Search Filter
       const matchesSearch =
         destination.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        destination.shortDescription
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+        destination.shortDescription.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const matchesPriceRange =
-        !filters.priceRange ||
-        (() => {
-          const price = destination.price;
-          switch (filters.priceRange) {
-            case 'Under $1000':
-              return price < 1000;
-            case '$1000-$1500':
-              return price >= 1000 && price <= 1500;
-            case '$1500-$2000':
-              return price >= 1500 && price <= 2000;
-            case 'Over $2000':
-              return price > 2000;
-            default:
-              return true;
-          }
-        })();
+      // Price Filter
+      const matchesPriceRange = !filters.priceRange || (() => {
+        const price = destination.price;
+        switch (filters.priceRange) {
+          case "Under $1000": return price < 1000;
+          case "$1000-$1500": return price >= 1000 && price <= 1500;
+          case "$1500-$2000": return price >= 1500 && price <= 2000;
+          case "Over $2000": return price > 2000;
+          default: return true;
+        }
+      })();
 
-      const matchesDuration =
-        !filters.duration ||
-        (() => {
-          const duration = destination.duration;
-          switch (filters.duration) {
-            case '5-7 days':
-              return (
-                duration.includes('5') ||
-                duration.includes('6') ||
-                duration.includes('7')
-              );
-            case '8-10 days':
-              return (
-                duration.includes('8') ||
-                duration.includes('9') ||
-                duration.includes('10')
-              );
-            case '10+ days':
-              return parseInt(duration) > 10;
-            default:
-              return true;
-          }
-        })();
+      // Duration Filter
+      const matchesDuration = !filters.duration || (() => {
+        const durationNumber = parseInt(destination.duration.replace(/\D/g, ""), 10);
+        switch (filters.duration) {
+          case "5-7 days": return durationNumber >= 5 && durationNumber <= 7;
+          case "8-10 days": return durationNumber >= 8 && durationNumber <= 10;
+          case "10+ days": return durationNumber > 10;
+          default: return true;
+        }
+      })();
 
-      const matchesRating =
-        !filters.rating ||
-        (() => {
-          const rating = destination.rating;
-          switch (filters.rating) {
-            case '4.0+':
-              return rating >= 4.0;
-            case '4.5+':
-              return rating >= 4.5;
-            case '4.8+':
-              return rating >= 4.8;
-            default:
-              return true;
-          }
-        })();
+      // Rating Filter
+      const matchesRating = !filters.rating || (() => {
+        const rating = destination.rating ?? 0;
+        switch (filters.rating) {
+          case "4.0+": return rating >= 4.0;
+          case "4.5+": return rating >= 4.5;
+          case "4.8+": return rating >= 4.8;
+          default: return true;
+        }
+      })();
 
-      return (
-        matchesSearch && matchesPriceRange && matchesDuration && matchesRating
-      );
+      return matchesSearch && matchesPriceRange && matchesDuration && matchesRating;
     });
 
-    // Sort destinations
+    // Sorting
     filtered.sort((a, b) => {
       switch (sortBy) {
-        case 'popular':
-          return (
-            (b.popular ? 1 : 0) - (a.popular ? 1 : 0) || b.rating - a.rating
-          );
-        case 'price-low':
-          return a.price - b.price;
-        case 'price-high':
-          return b.price - a.price;
-        case 'rating':
-          return b.rating - a.rating;
-        case 'duration':
-          return parseInt(a.duration) - parseInt(b.duration);
-        default:
-          return 0;
+        case "popular": return (b.popular ? 1 : 0) - (a.popular ? 1 : 0) || b.rating! - a.rating!;
+        case "price-low": return a.price - b.price;
+        case "price-high": return b.price - a.price;
+        case "rating": return (b.rating ?? 0) - (a.rating ?? 0);
+        case "duration":
+          return parseInt(a.duration.replace(/\D/g, ""), 10) -
+            parseInt(b.duration.replace(/\D/g, ""), 10);
+        default: return 0;
       }
     });
 
     return filtered;
-  }, [searchTerm, filters, sortBy]);
+  }, [searchTerm, filters, sortBy, enhancedDestinations]);
 
+  // ------------------- Handlers -------------------
   const handleFilterChange = (key: string, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
   const clearFilters = () => {
-    setSearchTerm('');
-    setFilters({ priceRange: '', duration: '', rating: '' });
-    setSortBy('popular');
-  };
-
-  const openLightbox = (destination: any, imageIndex: number = 0) => {
-    setLightboxImages(destination.gallery);
-    setLightboxIndex(imageIndex);
-    setLightboxTitle(destination.title);
-    setLightboxOpen(true);
+    setSearchTerm("");
+    setFilters({ priceRange: "", duration: "", rating: "" });
+    setSortBy("popular");
   };
 
   const toggleLike = (destinationId: string) => {
@@ -192,24 +181,28 @@ const Destinations: React.FC = () => {
     });
   };
 
+  const openLightbox = (destination: Destination, imageIndex = 0) => {
+    setLightboxImages(destination.gallery);
+    setLightboxIndex(imageIndex);
+    setLightboxTitle(destination.title);
+    setLightboxOpen(true);
+  };
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'Easy':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-      case 'Moderate':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
-      case 'Challenging':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
+      case "Easy": return "bg-green-100 text-green-800";
+      case "Moderate": return "bg-yellow-100 text-yellow-800";
+      case "Challenging": return "bg-red-100 text-red-800";
+      default: return "bg-gray-100 text-gray-800";
     }
   };
 
   const hasActiveFilters =
     searchTerm ||
-    Object.values(filters).some((value) => value !== '') ||
-    sortBy !== 'popular';
+    Object.values(filters).some((value) => value !== "") ||
+    sortBy !== "popular";
 
+  // ------------------- Loading State -------------------
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
@@ -223,97 +216,103 @@ const Destinations: React.FC = () => {
     );
   }
 
+  // ------------------- JSX -------------------
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       {/* Hero Section */}
       <section
-        className="relative h-[70vh] flex items-center justify-center text-center text-white"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+  className="relative h-[47rem] flex items-center justify-center overflow-hidden"
+  style={{
+    backgroundImage: `url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80')`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
+>
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-900/70 to-black/70"></div>
+
+  {/* Floating Animated Shapes */}
+  <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl animate-float"></div>
+    <div className="absolute top-40 right-20 w-44 h-44 bg-pink-500/20 rounded-full blur-2xl animate-float-delayed"></div>
+    <div className="absolute bottom-20 left-1/4 w-28 h-28 bg-yellow-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+    <div className="absolute top-1/2 right-1/4 w-36 h-36 bg-purple-400/20 rounded-full blur-3xl animate-float-slow"></div>
+  </div>
+
+  {/* Hero Content */}
+  <motion.div
+    className="relative z-10 text-center text-white px-6 max-w-6xl"
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+  >
+    {/* Badge */}
+    <motion.div
+      className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 border border-white/30 backdrop-blur-sm mb-8"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.3, duration: 0.6 }}
+    >
+      <Sparkles className="h-6 w-6 text-yellow-400 animate-spin-slow" />
+      <span className="text-lg font-medium tracking-wide">
+        Handpicked Travel Spots
+      </span>
+      <Sparkles className="h-6 w-6 text-yellow-400 animate-spin-slow" />
+    </motion.div>
+
+    {/* Title */}
+    <motion.h1
+      className="text-6xl md:text-8xl font-extrabold mb-8 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6, duration: 0.8 }}
+    >
+      Amazing
+      <span className="block text-yellow-400 animate-pulse">Destinations</span>
+    </motion.h1>
+
+    {/* Subtitle */}
+    <motion.p
+      className="text-xl md:text-2xl mb-12 leading-relaxed font-light max-w-4xl mx-auto"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.8 }}
+    >
+      Discover breathtaking locations with{" "}
+      <span className="font-semibold text-yellow-300">
+        expertly curated travel experiences
+      </span>{" "}
+      just for you.
+    </motion.p>
+
+    {/* CTA Buttons */}
+    <motion.div
+      className="flex flex-col sm:flex-row gap-6 justify-center"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.3, duration: 0.8 }}
+    >
+      <button
+        onClick={() =>
+          document
+            .getElementById("destinations-section")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
+        className="group px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 hover:shadow-2xl flex items-center justify-center text-xl"
       >
-        <div className="bg-black/40 absolute inset-0"></div>{' '}
-        {/* Floating Animation Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute top-40 right-20 w-44 h-44 bg-blue-400/20 rounded-full blur-2xl animate-float-delayed"></div>
-          <div className="absolute bottom-20 left-1/4 w-28 h-28 bg-purple-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 right-1/4 w-36 h-36 bg-yellow-400/10 rounded-full blur-3xl animate-float-slow"></div>
-        </div>
-        <motion.div
-          className="relative z-10 text-center text-white px-6 max-w-6xl"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <motion.div
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 border border-white/30 backdrop-blur-sm mb-8"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <Globe className="h-6 w-6 text-yellow-400 animate-spin-slow" />
-            <span className="text-lg font-medium tracking-wide">
-              Explore the World
-            </span>
-            <Globe className="h-6 w-6 text-yellow-400 animate-spin-slow" />
-          </motion.div>
+        🌍 Explore Destinations
+        <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform" />
+      </button>
+      <Link
+        to="/booking"
+        className="px-12 py-6 bg-white/10 backdrop-blur-sm border-2 border-white/30 hover:bg-white hover:text-gray-900 text-white font-bold rounded-2xl transition-all hover:scale-110 text-xl"
+      >
+        📅 Book Adventure
+      </Link>
+    </motion.div>
+  </motion.div>
+</section>
 
-          <motion.h1
-            className="text-6xl md:text-8xl font-extrabold mb-8 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-          >
-            Amazing
-            <span className="block text-yellow-400 animate-pulse">
-              Destinations
-            </span>
-          </motion.h1>
-
-          <motion.p
-            className="text-2xl md:text-3xl mb-12 leading-relaxed font-light max-w-5xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-          >
-            Discover{' '}
-            <span className="text-yellow-400 font-semibold">
-              breathtaking locations
-            </span>{' '}
-            around the world with our expertly curated travel experiences that
-            create memories for a lifetime
-          </motion.p>
-
-          <motion.div
-            className="flex flex-col sm:flex-row gap-6 justify-center"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.8 }}
-          >
-            <button
-              onClick={() =>
-                document
-                  .getElementById('destinations-section')
-                  ?.scrollIntoView({ behavior: 'smooth' })
-              }
-              className="group px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 hover:shadow-2xl flex items-center justify-center text-xl"
-            >
-              🌍 Explore Destinations
-              <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform" />
-            </button>
-            <Link
-              to="/booking"
-              className="px-12 py-6 bg-white/10 backdrop-blur-sm border-2 border-white/30 hover:bg-white hover:text-gray-900 text-white font-bold rounded-2xl transition-all hover:scale-110 text-xl"
-            >
-              📅 Book Adventure
-            </Link>
-          </motion.div>
-        </motion.div>
-      </section>
 
       {/* Statistics Section */}
       

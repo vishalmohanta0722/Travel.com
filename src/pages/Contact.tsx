@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle, User, MessageSquare } from 'lucide-react';
 import { supabase, type ContactMessageInsert } from '../supabaseClient';
-
+import { motion } from 'framer-motion';
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -131,52 +131,86 @@ const Contact: React.FC = () => {
   }
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
-    {/* Hero Section */}
-<section className="relative h-[600px] flex items-center justify-center overflow-hidden">
+{/* Hero Section */}
+<section className="relative h-[47rem] flex items-center justify-center overflow-hidden">
   {/* Background image with gradient overlay */}
   <div
-    className="absolute inset-0 bg-cover bg-center"
+    className="absolute inset-0 bg-cover bg-center bg-fixed"
     style={{
       backgroundImage:
         "url(https://images.pexels.com/photos/3408353/pexels-photo-3408353.jpeg?auto=compress&cs=tinysrgb&w=1600)",
     }}
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-transparent"></div>
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-600/40 via-purple-600/40 to-black/70"></div>
+  </div>
+
+  {/* Floating Elements */}
+  <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute top-16 left-12 w-20 h-20 bg-white/10 rounded-full blur-3xl animate-float"></div>
+    <div className="absolute top-40 right-20 w-28 h-28 bg-blue-400/20 rounded-full blur-2xl animate-float-delayed"></div>
+    <div className="absolute bottom-24 left-1/3 w-16 h-16 bg-purple-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+    <div className="absolute bottom-16 right-1/4 w-24 h-24 bg-yellow-400/10 rounded-full blur-2xl animate-float-slow"></div>
   </div>
 
   {/* Content */}
-  <div className="relative z-10 text-center text-white px-6 max-w-5xl">
-    <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
-      Let’s Start Your <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">Dream Journey</span>
-    </h1>
-    <p className="text-lg md:text-2xl text-gray-200 max-w-2xl mx-auto mb-8">
-      Wherever you want to go, we’ll make your travel effortless, personalized, and unforgettable.  
-    </p>
-
-    {/* Call to action button */}
-    <a
-      href="#contact-form"
-      className="inline-block px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:scale-105 transform transition-all duration-300"
+  <motion.div
+    className="relative z-10 text-center text-white px-6 max-w-5xl"
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+  >
+    {/* Heading */}
+    <motion.h1
+      className="text-5xl md:text-7xl font-extrabold leading-tight mb-6"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3, duration: 0.8 }}
     >
-      Get In Touch
-    </a>
-  </div>
+      Let’s Start Your{" "}
+      <span className="block text-yellow-400 animate-pulse">
+        Dream Journey
+      </span>
+    </motion.h1>
 
-  {/* Decorative bottom wave */}
-  <div className="absolute bottom-0 left-0 right-0">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 1440 320"
-      className="w-full h-24 text-white"
-      fill="currentColor"
+    {/* Subtitle */}
+    <motion.p
+      className="text-lg md:text-2xl text-gray-200 max-w-2xl mx-auto mb-8"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6, duration: 0.8 }}
     >
-      <path
-        fillOpacity="1"
-        d="M0,64L48,69.3C96,75,192,85,288,122.7C384,160,480,224,576,218.7C672,213,768,139,864,106.7C960,75,1056,85,1152,96C1248,107,1344,117,1392,122.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
-      ></path>
-    </svg>
-  </div>
+      Wherever you want to go, we’ll make your travel effortless, personalized, and unforgettable.
+    </motion.p>
+
+    {/* Call to Action Buttons */}
+    <motion.div
+      className="flex flex-col sm:flex-row gap-6 justify-center"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.9, duration: 0.8 }}
+    >
+      {/* Get In Touch */}
+      <a
+        href="#contact-form"
+        className="group px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg 
+                   border border-white/30 hover:scale-110 hover:shadow-2xl hover:from-purple-600 hover:to-blue-600 
+                   transform transition-all duration-300 flex items-center justify-center text-lg"
+      >
+        ✉️ Get In Touch
+      </a>
+
+      {/* Call Us */}
+      <a
+        href="tel:+919818223938"
+        className="px-12 py-6 bg-white/10 backdrop-blur-sm border-2 border-white/30 hover:bg-white hover:text-gray-900 text-white font-bold rounded-2xl transition-all hover:scale-110 text-xl"
+      >
+        📞 Call Us
+      </a>
+    </motion.div>
+  </motion.div>
 </section>
+
+
 
 {/* Contact Section */}
 <section className="py-20 bg-gray-50" id="contact-form">
@@ -202,15 +236,15 @@ const Contact: React.FC = () => {
           <div className="mt-6 space-y-3">
             <div className="flex items-center gap-3">
               <Mail className="w-6 h-6" />
-              <span>info@yourwebsite.com</span>
+              <span>VM-TravelCo07@gmail.com</span>
             </div>
             <div className="flex items-center gap-3">
               <Phone className="w-6 h-6" />
-              <span>+1 555 123 4567</span>
+              <span>+91 7011228875</span>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="w-6 h-6" />
-              <span>123 Dream St, Travel City, USA</span>
+              <span>Sec-83(Rampura), Gurgaon, Haryana</span>
             </div>
           </div>
 

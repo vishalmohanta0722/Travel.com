@@ -161,63 +161,102 @@ const Services: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
 {/* Hero Section */}
-<section className="relative h-[80vh] flex items-center justify-center overflow-hidden bg-cover bg-center"
+{/* Hero Section with Framer Motion Animations */}
+<section className="relative h-[47rem] flex items-center justify-center overflow-hidden">
+  {/* Background */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-fixed"
     style={{
       backgroundImage:
         'url(https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=compress&cs=tinysrgb&w=1600)',
     }}
->
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-black/40"></div>
+  >
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-purple-900/70 to-black/70"></div>
+  </div>
 
   {/* Floating Shapes */}
-  <div className="absolute top-16 left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-  <div className="absolute bottom-32 right-16 w-44 h-44 bg-pink-500/20 rounded-full blur-2xl animate-bounce"></div>
-  <div className="absolute top-1/3 right-1/4 w-28 h-28 bg-yellow-400/20 rounded-full blur-2xl animate-pulse delay-700"></div>
+  <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl animate-float"></div>
+    <div className="absolute top-40 right-20 w-44 h-44 bg-pink-500/20 rounded-full blur-2xl animate-float-delayed"></div>
+    <div className="absolute bottom-20 left-1/4 w-28 h-28 bg-yellow-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+    <div className="absolute top-1/2 right-1/4 w-36 h-36 bg-purple-400/20 rounded-full blur-3xl animate-float-slow"></div>
+  </div>
 
-  {/* Content */}
-  <div className="relative z-10 text-center text-white px-6 max-w-4xl">
+  {/* Hero Content */}
+  <motion.div
+    className="relative z-10 text-center text-white px-6 max-w-6xl"
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+  >
     {/* Badge */}
-    <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-8">
+    <motion.div
+      className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 border border-white/30 backdrop-blur-sm mb-8"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.3, duration: 0.6 }}
+    >
       <Sparkles className="h-6 w-6 text-yellow-400 animate-spin-slow" />
       <span className="text-lg font-medium tracking-wide">
         Your Journey, Our Expertise
       </span>
-    </div>
+      <Sparkles className="h-6 w-6 text-yellow-400 animate-spin-slow" />
+    </motion.div>
 
-    {/* Main Title */}
-    <h1 className="text-6xl md:text-7xl font-extrabold leading-tight mb-6">
-      Explore. Dream. Discover.
-    </h1>
+    {/* Title */}
+    <motion.h1
+      className="text-6xl md:text-8xl font-extrabold mb-8 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6, duration: 0.8 }}
+    >
+      Explore. Dream. 
+      <span className="block text-yellow-400 animate-pulse">Discover.</span>
+    </motion.h1>
 
     {/* Subtitle */}
-    <p className="text-xl md:text-2xl font-light mb-10 text-gray-200">
-      Unlock <span className="font-semibold text-yellow-300">exclusive travel experiences</span> crafted just for <span className="font-semibold">you</span>.
-    </p>
+    <motion.p
+      className="text-xl md:text-2xl mb-12 leading-relaxed font-light max-w-4xl mx-auto"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.8 }}
+    >
+      Unlock{' '}
+      <span className="text-yellow-400 font-semibold">
+        exclusive travel experiences
+      </span>{' '}
+      crafted just for{' '}
+      <span className="font-semibold">you</span>.
+    </motion.p>
 
-    {/* Buttons */}
-    <div className="flex flex-col sm:flex-row gap-6 justify-center">
+    {/* CTA Buttons */}
+    <motion.div
+      className="flex flex-col sm:flex-row gap-6 justify-center"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.3, duration: 0.8 }}
+    >
       <button
         onClick={() =>
           document
             .getElementById('services-section')
             ?.scrollIntoView({ behavior: 'smooth' })
         }
-        className="group px-10 py-5 bg-blue-600 rounded-2xl text-xl font-bold flex items-center justify-center hover:scale-110 transition-all shadow-lg"
+        className="group px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 hover:shadow-2xl flex items-center justify-center text-xl"
       >
         🌍 Explore Services
         <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform" />
       </button>
-
       <Link
         to="/contact"
-        className="px-10 py-5 bg-white text-blue-600 rounded-2xl text-xl font-bold hover:bg-gray-100 transition-all"
+        className="px-12 py-6 bg-white/10 backdrop-blur-sm border-2 border-white/30 hover:bg-white hover:text-gray-900 text-white font-bold rounded-2xl transition-all hover:scale-110 text-xl"
       >
         ✨ Get Custom Quote
       </Link>
-    </div>
-  </div>
+    </motion.div>
+  </motion.div>
 </section>
+
 
 
       {/* Stats Section */}
@@ -596,13 +635,13 @@ const Services: React.FC = () => {
             away.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link
-              to="/booking"
-              className="group px-12 py-6 bg-white text-blue-600 font-bold rounded-2xl hover:bg-gray-100 transition-all transform hover:scale-105 hover:shadow-2xl text-xl flex items-center justify-center"
-            >
-              🚀 Book Your Adventure
-              <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform" />
-            </Link>
+           
+<Link
+  to="/booking"
+  className="px-12 py-6 bg-white text-blue-600 hover:bg-blue-50 font-bold rounded-2xl transition-all transform hover:scale-105 text-xl"
+>
+  🎯 Start Booking
+</Link>
             <Link
               to="/contact"
               className="px-12 py-6 bg-white/10 backdrop-blur-sm border-2 border-white/30 hover:bg-white hover:text-blue-600 text-white font-bold rounded-2xl transition-all transform hover:scale-105 text-xl"
