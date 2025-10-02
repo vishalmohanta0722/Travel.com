@@ -75,7 +75,7 @@ const About: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center overflow-hidden">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-xl text-gray-600 dark:text-gray-300">
@@ -87,7 +87,7 @@ const About: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors overflow-x-hidden">
       {/* Parallax Hero Section */}
      <section className="relative h-[47rem] flex items-center justify-center overflow-hidden">
         {/* Parallax Background */}
@@ -112,14 +112,14 @@ const About: React.FC = () => {
 
         {/* Hero Content */}
         <motion.div
-          className="relative z-10 text-center text-white px-6 max-w-6xl"
+          className="relative z-10 text-center text-white px-6 max-w-6xl overflow-hidden"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
           {/* Badge */}
           <motion.div
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 border border-white/30 backdrop-blur-sm mb-8"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 border border-white/30 backdrop-blur-sm mb-8 overflow-hidden"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
@@ -133,7 +133,7 @@ const About: React.FC = () => {
 
           {/* Title */}
           <motion.h1
-            className="text-7xl md:text-9xl font-extrabold mb-8 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight"
+            className="text-7xl md:text-9xl font-extrabold mb-8 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight overflow-hidden"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -146,7 +146,7 @@ const About: React.FC = () => {
 
           {/* Subtitle */}
           <motion.p
-            className="text-2xl md:text-3xl mb-12 leading-relaxed font-light max-w-5xl mx-auto"
+            className="text-2xl md:text-3xl mb-12 leading-relaxed font-light max-w-5xl mx-auto overflow-hidden"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.8 }}
@@ -160,7 +160,7 @@ const About: React.FC = () => {
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-6 justify-center"
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center overflow-hidden"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.3, duration: 0.8 }}
@@ -171,7 +171,7 @@ const About: React.FC = () => {
                   .getElementById('story-section')
                   ?.scrollIntoView({ behavior: 'smooth' })
               }
-              className="group px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 hover:shadow-2xl flex items-center justify-center text-xl"
+              className="group px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-2xl transition-all transform hover:scale-110 hover:shadow-2xl flex items-center justify-center text-xl overflow-hidden"
             >
               📖 Read Our Story
               <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform" />
@@ -191,7 +191,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Company Story Section */}
-      <section id="story-section" className="py-24 bg-white dark:bg-gray-900">
+      <section id="story-section" className="py-24 bg-white dark:bg-gray-900 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center mb-20"
@@ -210,7 +210,7 @@ const About: React.FC = () => {
           </motion.div>
 
           {/* Story Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20 overflow-hidden">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -611,7 +611,7 @@ const About: React.FC = () => {
                   {/* Contact Button */}
                   <a
                     href={member.social.email}
-                    className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all transform hover:scale-105 text-center flex items-center justify-center gap-2 shadow-lg"
+                    className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all transform hover:scale-105 text-center flex items-center justify-center gap-2 shadow-lg overflow-hidden"
                   >
                     <Mail className="h-4 w-4" />
                     Contact {member.name.split(' ')[0]}
@@ -623,7 +623,7 @@ const About: React.FC = () => {
         </div>
       </section>
 {/* Why Choose Us Section */}
-<section className="py-24 bg-white dark:bg-gray-900">
+<section className="py-24 bg-white dark:bg-gray-900 overflow-hidden">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {/* Section Header */}
     <motion.div
@@ -642,7 +642,7 @@ const About: React.FC = () => {
     </motion.div>
 
     {/* Cards Grid */}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 overflow-hidden">
       {[
         {
           id: 1,
@@ -690,18 +690,18 @@ const About: React.FC = () => {
           >
             {/* Icon */}
             <div
-              className={`w-24 h-24 bg-gradient-to-br ${card.color} rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg relative z-10 group-hover:scale-110 transition-transform`}
+              className={`w-24 h-24 bg-gradient-to-br ${card.color} rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg relative z-10 group-hover:scale-110 transition-transform overflow-hidden`}
             >
               {card.icon}
             </div>
 
             {/* Title */}
-            <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white relative z-10">
+            <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white relative z-10 overflow-hidden">
               {card.title}
             </h3>
 
             {/* Description */}
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg relative z-10">
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg relative z-10 overflow-hidden">
               {card.description}
             </p>
           </motion.div>
@@ -712,7 +712,7 @@ const About: React.FC = () => {
 </section>
 
    {/* Company Timeline Section */}
-<section className="py-24 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900">
+<section className="py-24 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 overflow-hidden">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {/* Section Header */}
     <motion.div
@@ -732,7 +732,7 @@ const About: React.FC = () => {
 
     <div className="relative">
       {/* Timeline Line */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+      <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500 rounded-full overflow-hidden"></div>
 
       <div className="space-y-16">
         {[
@@ -796,24 +796,24 @@ const About: React.FC = () => {
                 className="relative bg-white/20 dark:bg-gray-800/40 backdrop-blur-lg border border-white/30 dark:border-gray-700/40 p-8 rounded-3xl shadow-lg hover:shadow-[0_0_25px_rgba(59,130,246,0.7)] transition-all duration-500"
               >
                 {/* Year */}
-                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-4 relative z-10">
+                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-4 relative z-10 overflow-hidden">
                   {milestone.year}
                 </div>
 
                 {/* Title */}
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 relative z-10">
+                <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 relative z-10 overflow-hidden">
                   {milestone.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed relative z-10">
+                <p className="text-gray-700 dark:text-gray-300 leading-relaxed relative z-10 overflow-hidden">
                   {milestone.description}
                 </p>
               </motion.div>
             </div>
 
             {/* Timeline Dot */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-4 border-white dark:border-gray-900 shadow-lg"></div>
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full border-4 border-white dark:border-gray-900 shadow-lg overflow-hidden"></div>
           </motion.div>
         ))}
       </div>
